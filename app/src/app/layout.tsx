@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import Navbar from "@/components/layout/Navbar";
+import Footer from "@/components/layout/Footer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -12,22 +14,36 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+/**
+ * Metadata configuration for the application
+ * Defines the page title and description for SEO
+ */
 export const metadata: Metadata = {
   title: "AuxPoll",
   description: "Vote your vibe!",
 };
 
+/**
+ * Root layout component that wraps all pages
+ * Configures global fonts, styling, dark theme, and layout structure
+ *
+ * @param {Object} props - Component properties
+ * @param {React.ReactNode} props.children - Child components to render
+ * @returns {JSX.Element} Root HTML document structure with global fonts, Navbar, main content area, and Footer
+ */
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className="dark">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        <Navbar />
+        <main className="min-h-screen pt-16">{children}</main>
+        <Footer />
       </body>
     </html>
   );
