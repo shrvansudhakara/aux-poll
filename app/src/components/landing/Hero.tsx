@@ -24,7 +24,7 @@ export default function Hero() {
         >
           <Image
             src="/landing.png"
-            alt="Landing page image"
+            alt="Cat vibing"
             fill
             className="object-contain"
             priority
