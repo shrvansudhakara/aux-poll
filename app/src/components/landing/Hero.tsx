@@ -58,15 +58,12 @@ export default function Hero() {
           transition={{ delay: 0.4, duration: 0.5 }}
           className="flex flex-wrap justify-center gap-3"
         >
-          <Link href="/join-room">
-            <Button size="default">Join Room</Button>
-          </Link>
-
-          <Link href="/create-room">
-            <Button variant="outline" size="default">
-              Create Room
-            </Button>
-          </Link>
+          <Button size="default" asChild>
+            <Link href="/join-room">Join Room</Link>
+          </Button>
+          <Button variant="outline" size="default" asChild>
+            <Link href="/create-room">Create Room</Link>
+          </Button>
         </motion.div>
       </div>
     </section>
