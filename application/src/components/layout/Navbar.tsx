@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 
 /**
  * Navigation bar component
- * Features logo, navigation links, and auth buttons with smooth animations
+ * Features logo and auth button with a slide-in animation
  *
  * @returns {JSX.Element} The fixed top navigation bar
  */
