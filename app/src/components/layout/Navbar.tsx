@@ -35,9 +35,9 @@ export default function Navbar() {
 
         {/* Navigation Links & Auth */}
         <div className="flex items-center space-x-4">
-          <Link href="/login">
-            <Button>Login</Button>
-          </Link>
+          <Button asChild>
+            <Link href="/login">Login</Link>
+          </Button>
         </div>
       </div>
     </motion.nav>
