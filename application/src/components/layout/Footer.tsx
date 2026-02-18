@@ -15,7 +15,7 @@ export default function Footer() {
             <p className="text-sm text-zinc-400">
               © {new Date().getFullYear()} AuxPoll
             </p>
-            <p className="mt-1 text-xs">
+            <p className="mt-1 text-xs text-zinc-400">
               Made with <span className="animate-pulse">☕</span> -{" "}
               <Link
                 href="https://x.com/shrvansudhakara"
