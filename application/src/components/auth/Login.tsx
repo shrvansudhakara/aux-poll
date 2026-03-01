@@ -20,7 +20,7 @@ export default function SignIn() {
       <CardHeader>
         <CardTitle className="text-lg md:text-xl text-center">Log In</CardTitle>
         <CardDescription className="text-xs md:text-sm text-center">
-          Enter your email below to login to your account
+          Sign in with your social account to continue
         </CardDescription>
       </CardHeader>
       <CardContent>
