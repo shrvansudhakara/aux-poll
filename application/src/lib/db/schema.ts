@@ -107,17 +107,21 @@ export const rooms = pgTable("rooms", {
   createdAt: timestamp("created_at").notNull().defaultNow(),
 });
 
-export const roomMembers = pgTable("room_members", {
-  id: text("id").primaryKey(),
-  roomId: text("room_id")
-    .notNull()
-    .references(() => rooms.id, { onDelete: "cascade" }),
-  userId: text("user_id")
-    .notNull()
-    .references(() => user.id, { onDelete: "cascade" }),
-  role: text("role").notNull().default("member"),
-  joinedAt: timestamp("joined_at").notNull().defaultNow(),
-});
+export const roomMembers = pgTable(
+  "room_members",
+  {
+    id: text("id").primaryKey(),
+    roomId: text("room_id")
+      .notNull()
+      .references(() => rooms.id, { onDelete: "cascade" }),
+    userId: text("user_id")
+      .notNull()
+      .references(() => user.id, { onDelete: "cascade" }),
+    role: text("role").notNull().default("member"),
+    joinedAt: timestamp("joined_at").notNull().defaultNow(),
+  },
+  (t) => [unique("unique_room_member").on(t.roomId, t.userId)],
+);
 
 export const queue = pgTable("queue", {
   id: text("id").primaryKey(),
