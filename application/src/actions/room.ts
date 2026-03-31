@@ -25,12 +25,17 @@ export async function createRoom(name: string) {
     isActive: 1,
   });
 
-  await db.insert(roomMembers).values({
-    id: nanoid(),
-    roomId: id,
-    userId: session.user.id,
-    role: "host",
-  });
+  try {
+    await db.insert(roomMembers).values({
+      id: nanoid(),
+      roomId: id,
+      userId: session.user.id,
+      role: "host",
+    });
+  } catch (err) {
+    await db.delete(rooms).where(eq(rooms.id, id));
+    throw err;
+  }
 
   return { code };
 }
