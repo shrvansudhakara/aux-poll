@@ -10,6 +10,7 @@ import { useState } from "react";
 import Login from "@/components/auth/Login";
 import { useRouter } from "next/navigation";
 import { authClient } from "@/lib/auth/auth-client";
+import { useAuthModal } from "@/lib/context/auth-modal";
 
 /**
  * Navigation bar component
@@ -18,7 +19,7 @@ import { authClient } from "@/lib/auth/auth-client";
  * @returns {JSX.Element} The fixed top navigation bar
  */
 export default function Navbar() {
-  const [open, setOpen] = useState(false);
+  const { open, setOpen } = useAuthModal();
   const { data: session } = authClient.useSession();
   const router = useRouter();
 

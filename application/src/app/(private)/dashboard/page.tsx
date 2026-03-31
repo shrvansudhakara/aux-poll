@@ -59,9 +59,12 @@ export default function Home() {
       <p className="text-muted-foreground">
         Welcome, {session?.user?.name || session?.user?.email || "User"}!
       </p>
-      <Button variant="outline" onClick={handleSignOut}>
-        Logout
-      </Button>
+      <div className="flex gap-2">
+        <Button onClick={() => router.push("/room/create")}>Create Room</Button>
+        <Button variant="outline" onClick={() => router.push("/room/join")}>
+          Join Room
+        </Button>
+      </div>
     </div>
   );
 }
