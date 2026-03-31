@@ -9,12 +9,14 @@ import { useAuthModal } from "@/lib/context/auth-modal";
 export default function CreateRoomForm() {
   const [name, setName] = useState("");
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
   const router = useRouter();
   const { setOpen } = useAuthModal();
 
   const handleCreate = async () => {
     if (!name.trim()) return;
     setLoading(true);
+    setError("");
     try {
       const { code } = await createRoom(name);
       router.push(`/room/${code}`);
@@ -22,7 +24,7 @@ export default function CreateRoomForm() {
       if (error instanceof Error && error.message === "Unauthorized") {
         setOpen(true);
       } else {
-        console.error(error);
+        setError("Failed to create room. Please try again.");
       }
     } finally {
       setLoading(false);
@@ -31,6 +33,7 @@ export default function CreateRoomForm() {
 
   return (
     <div className="flex flex-col gap-4">
+      {error && <p className="text-sm text-red-500">{error}</p>}
       <input
         type="text"
         placeholder="Room name"
