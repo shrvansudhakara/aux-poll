@@ -1,14 +1,14 @@
 "use client";
 
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
+  CardDescription,
   CardHeader,
   CardTitle,
-  CardDescription,
 } from "@/components/ui/card";
-import { useState } from "react";
 import { signIn } from "@/lib/auth/auth-client";
 import { cn } from "@/lib/utils";
 
@@ -54,6 +54,8 @@ export default function SignIn() {
             }}
           >
             <svg
+              role="img"
+              aria-label="Google"
               xmlns="http://www.w3.org/2000/svg"
               width="1em"
               height="1em"
@@ -101,6 +103,8 @@ export default function SignIn() {
             }}
           >
             <svg
+              role="img"
+              aria-label="X (Twitter)"
               xmlns="http://www.w3.org/2000/svg"
               width="1em"
               height="1em"

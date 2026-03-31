@@ -1,7 +1,7 @@
-import { db } from "@/lib/db";
-import { rooms } from "@/lib/db/schema";
 import { eq } from "drizzle-orm";
 import { notFound } from "next/navigation";
+import { db } from "@/lib/db";
+import { rooms } from "@/lib/db/schema";
 
 interface RoomPageProps {
   params: Promise<{ code: string }>;

@@ -1,14 +1,13 @@
 "use client";
 
+import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import { motion } from "motion/react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import Login from "@/components/auth/Login";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
-import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
-import { useState } from "react";
-import Login from "@/components/auth/Login";
-import { useRouter } from "next/navigation";
 import { authClient } from "@/lib/auth/auth-client";
 import { useAuthModal } from "@/lib/context/auth-modal";
 

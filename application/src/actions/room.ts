@@ -1,11 +1,11 @@
 "use server";
 
+import { and, eq } from "drizzle-orm";
 import { nanoid } from "nanoid";
-import { db } from "@/lib/db";
-import { rooms, roomMembers } from "@/lib/db/schema";
-import { auth } from "@/lib/auth/auth";
 import { headers } from "next/headers";
-import { eq, and } from "drizzle-orm";
+import { auth } from "@/lib/auth/auth";
+import { db } from "@/lib/db";
+import { roomMembers, rooms } from "@/lib/db/schema";
 
 export async function createRoom(name: string) {
   const session = await auth.api.getSession({ headers: await headers() });
