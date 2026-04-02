@@ -14,11 +14,12 @@ export default function CreateRoomForm() {
   const { setOpen } = useAuthModal();
 
   const handleCreate = async () => {
-    if (!name.trim()) return;
+    const trimmedName = name.trim();
+    if (!trimmedName) return;
     setLoading(true);
     setError("");
     try {
-      const { code } = await createRoom(name);
+      const { code } = await createRoom(trimmedName);
       router.push(`/room/${code}`);
     } catch (error) {
       if (error instanceof Error && error.message === "Unauthorized") {
