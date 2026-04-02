@@ -17,7 +17,7 @@ export default function Home() {
   // Show loading state while checking authentication
   if (isPending) {
     return (
-      <div className="flex min-h-screen items-center justify-center">
+      <div className="flex min-h-[calc(100vh-4rem)] items-center justify-center">
         <div className="text-lg">Loading...</div>
       </div>
     );
@@ -26,14 +26,14 @@ export default function Home() {
   // Show redirecting state if not authenticated
   if (!session) {
     return (
-      <div className="flex min-h-screen items-center justify-center">
+      <div className="flex min-h-[calc(100vh-4rem)] items-center justify-center">
         <div className="text-lg">Redirecting...</div>
       </div>
     );
   }
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center gap-4">
+    <div className="flex min-h-[calc(100vh-4rem)] flex-col items-center justify-center gap-4">
       <h1 className="text-3xl font-bold">Dashboard</h1>
       <p className="text-muted-foreground">
         Welcome, {session?.user?.name || session?.user?.email || "User"}!
