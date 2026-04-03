@@ -3,11 +3,17 @@
 import { and, eq } from "drizzle-orm";
 import { nanoid } from "nanoid";
 import { headers } from "next/headers";
+import { z } from "zod";
 import { auth } from "@/lib/auth/auth";
 import { db } from "@/lib/db";
 import { roomMembers, rooms } from "@/lib/db/schema";
 
+const createRoomSchema = z.object({
+  name: z.string().trim().min(1).max(100),
+});
+
 export async function createRoom(name: string) {
+  const { name: trimmedName } = createRoomSchema.parse({ name });
   const session = await auth.api.getSession({ headers: await headers() });
 
   if (!session) {
@@ -20,7 +26,7 @@ export async function createRoom(name: string) {
   await db.insert(rooms).values({
     id,
     code,
-    name,
+    name: trimmedName,
     hostId: session.user.id,
     isActive: 1,
   });
