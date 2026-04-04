@@ -33,7 +33,7 @@ export default function RoomQueue({ roomId, initialQueue }: RoomQueueProps) {
 
   const handleAdd = async (result: SearchResult) => {
     try {
-      await addToQueue({
+      const { id } = await addToQueue({
         roomId,
         videoId: result.videoId,
         title: result.title,
@@ -42,7 +42,7 @@ export default function RoomQueue({ roomId, initialQueue }: RoomQueueProps) {
       setQueueItems((prev) => [
         ...prev,
         {
-          id: result.videoId,
+          id,
           videoId: result.videoId,
           title: result.title,
           thumbnail: result.thumbnail,

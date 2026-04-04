@@ -56,16 +56,19 @@ export async function addToQueue(input: {
   thumbnail: string;
 }) {
   const validated = addToQueueSchema.parse(input);
-
   const session = await auth.api.getSession({ headers: await headers() });
+
   if (!session) throw new Error("Unauthorized");
 
+  const id = nanoid();
+
   await db.insert(queue).values({
-    id: nanoid(),
+    id,
     roomId: validated.roomId,
     videoId: validated.videoId,
     title: validated.title,
     thumbnail: validated.thumbnail,
     addedBy: session.user.id,
   });
+  return { id };
 }
