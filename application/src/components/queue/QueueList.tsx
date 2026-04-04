@@ -1,5 +1,7 @@
 "use client";
 
+import Image from "next/image";
+
 interface QueueItem {
   id: string;
   videoId: string;
@@ -29,10 +31,12 @@ export default function QueueList({ items }: QueueListProps) {
           className="flex items-center gap-3 border rounded p-2"
         >
           <span className="text-muted-foreground text-sm w-4">{index + 1}</span>
-          <img
+          <Image
             src={item.thumbnail}
             alt={item.title}
-            className="w-20 h-14 object-cover rounded"
+            width={80}
+            height={45}
+            className="object-cover rounded"
           />
           <p className="flex-1 text-sm">{item.title}</p>
           <span className="text-sm text-muted-foreground">

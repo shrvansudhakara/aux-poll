@@ -1,5 +1,7 @@
 "use client";
 
+import Image from "next/image";
+
 interface SearchResult {
   videoId: string;
   title: string;
@@ -21,10 +23,12 @@ export default function SearchResults({ results, onAdd }: SearchResultsProps) {
           key={result.videoId}
           className="flex items-center gap-3 border rounded p-2"
         >
-          <img
+          <Image
             src={result.thumbnail}
             alt={result.title}
-            className="w-20 h-14 object-cover rounded"
+            width={80}
+            height={45}
+            className="object-cover rounded"
           />
           <p className="flex-1 text-sm">{result.title}</p>
           <button

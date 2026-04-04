@@ -1,8 +1,8 @@
-import { db } from "@/lib/db";
-import { queue, rooms } from "@/lib/db/schema";
 import { desc, eq } from "drizzle-orm";
 import { notFound } from "next/navigation";
 import RoomQueue from "@/components/queue/RoomQueue";
+import { db } from "@/lib/db";
+import { queue, rooms } from "@/lib/db/schema";
 
 interface RoomPageProps {
   params: Promise<{ code: string }>;

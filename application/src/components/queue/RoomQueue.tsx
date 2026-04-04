@@ -2,9 +2,9 @@
 
 import { useState } from "react";
 import { addToQueue } from "@/actions/queue";
+import QueueList from "@/components/queue/QueueList";
 import SearchBar from "@/components/queue/SearchBar";
 import SearchResults from "@/components/queue/SearchResults";
-import QueueList from "@/components/queue/QueueList";
 import { useAuthModal } from "@/lib/context/auth-modal";
 
 interface SearchResult {
