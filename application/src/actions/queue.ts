@@ -37,6 +37,10 @@ export async function searchYouTube(query: string) {
 
   const data = await res.json();
 
+  if (!Array.isArray(data.items)) {
+    return [];
+  }
+
   return data.items.map(
     (item: {
       id: { videoId: string };
