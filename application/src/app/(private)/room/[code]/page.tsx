@@ -1,6 +1,6 @@
 import { db } from "@/lib/db";
 import { queue, rooms } from "@/lib/db/schema";
-import { eq } from "drizzle-orm";
+import { desc, eq } from "drizzle-orm";
 import { notFound } from "next/navigation";
 import RoomQueue from "@/components/queue/RoomQueue";
 
@@ -25,7 +25,7 @@ export default async function RoomPage({ params }: RoomPageProps) {
     .select()
     .from(queue)
     .where(eq(queue.roomId, room[0].id))
-    .orderBy(queue.voteCount, queue.createdAt);
+    .orderBy(desc(queue.voteCount), queue.createdAt);
 
   return (
     <div className="flex min-h-[calc(100vh-4rem)] flex-col items-center justify-start gap-6 p-6">
