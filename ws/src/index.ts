@@ -1,4 +1,5 @@
 import "dotenv/config";
+import crypto from "node:crypto";
 import http from "node:http";
 import { Server } from "socket.io";
 
@@ -11,7 +12,15 @@ if (!INTERNAL_SECRET) {
 }
 
 const httpServer = http.createServer((req, res) => {
-  if (req.headers["x-internal-secret"] !== INTERNAL_SECRET) {
+  const providedSecret = req.headers["x-internal-secret"];
+  if (
+    typeof providedSecret !== "string" ||
+    providedSecret.length !== INTERNAL_SECRET.length ||
+    !crypto.timingSafeEqual(
+      Buffer.from(providedSecret),
+      Buffer.from(INTERNAL_SECRET),
+    )
+  ) {
     res.writeHead(401).end("Unauthorized");
     return;
   }
