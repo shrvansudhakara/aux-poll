@@ -31,12 +31,14 @@ export async function toggleVote(queueId: string) {
       .where(eq(queue.id, queueId))
       .limit(1);
 
-    await emitEvent("/internal/events/vote-updated", {
-      roomId: updatedUnvote[0].roomId,
-      queueId,
-      voteCount: updatedUnvote[0].voteCount,
-      voted: false,
-    });
+    if (updatedUnvote[0]) {
+      await emitEvent("/internal/events/vote-updated", {
+        roomId: updatedUnvote[0].roomId,
+        queueId,
+        voteCount: updatedUnvote[0].voteCount,
+        voted: false,
+      });
+    }
 
     return { voted: false };
   }
@@ -63,12 +65,14 @@ export async function toggleVote(queueId: string) {
       .where(eq(queue.id, queueId))
       .limit(1);
 
-    await emitEvent("/internal/events/vote-updated", {
-      roomId: updatedVote[0].roomId,
-      queueId,
-      voteCount: updatedVote[0].voteCount,
-      voted: true,
-    });
+    if (updatedVote[0]) {
+      await emitEvent("/internal/events/vote-updated", {
+        roomId: updatedVote[0].roomId,
+        queueId,
+        voteCount: updatedVote[0].voteCount,
+        voted: true,
+      });
+    }
 
     return { voted: true };
   }
