@@ -26,16 +26,23 @@ export async function toggleVote(queueId: string) {
     return { voted: false };
   }
 
-  await db.insert(votes).values({
-    id: nanoid(),
-    queueId,
-    userId: session.user.id,
-  });
+  const inserted = await db
+    .insert(votes)
+    .values({
+      id: nanoid(),
+      queueId,
+      userId: session.user.id,
+    })
+    .onConflictDoNothing()
+    .returning();
 
-  await db
-    .update(queue)
-    .set({ voteCount: sql`${queue.voteCount} + 1` })
-    .where(eq(queue.id, queueId));
+  if (inserted.length) {
+    await db
+      .update(queue)
+      .set({ voteCount: sql`${queue.voteCount} + 1` })
+      .where(eq(queue.id, queueId));
+    return { voted: true };
+  }
 
   return { voted: true };
 }
