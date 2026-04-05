@@ -19,7 +19,18 @@ const httpServer = http.createServer((req, res) => {
   const chunks: Buffer[] = [];
   req.on("data", (chunk) => chunks.push(chunk));
   req.on("end", () => {
-    const body = JSON.parse(Buffer.concat(chunks).toString());
+    let body: { roomId?: string; [key: string]: unknown };
+    try {
+      body = JSON.parse(Buffer.concat(chunks).toString() || "{}");
+    } catch {
+      res.writeHead(400).end("Invalid JSON");
+      return;
+    }
+
+    if (!body.roomId || typeof body.roomId !== "string") {
+      res.writeHead(400).end("Missing or invalid roomId");
+      return;
+    }
 
     if (req.url === "/internal/events/queue-updated" && req.method === "POST") {
       io.to(body.roomId).emit("queue:updated", body);
