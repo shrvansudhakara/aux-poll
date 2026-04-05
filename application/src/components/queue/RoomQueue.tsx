@@ -43,7 +43,11 @@ export default function RoomQueue({
     const onQueueUpdated = (item: QueueItem) => {
       setQueueItems((prev) => {
         if (prev.some((q) => q.id === item.id)) return prev;
-        return [...prev, item];
+        return [...prev, item].sort(
+          (a, b) =>
+            b.voteCount - a.voteCount ||
+            new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime(),
+        );
       });
     };
 
