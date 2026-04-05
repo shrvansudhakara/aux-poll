@@ -26,16 +26,23 @@ export default function RoomProvider({ roomId, children }: RoomProviderProps) {
   const socket = getSocket();
 
   useEffect(() => {
-    socket.connect();
-    socket.on("connect", () => {
+    const onConnect = () => {
       socket.emit("join-room", roomId);
-    });
+    };
+
+    socket.on("connect", onConnect);
+    socket.connect();
+    if (socket.connected) {
+      onConnect();
+    }
 
     return () => {
+      socket.off("connect", onConnect);
       socket.emit("leave-room", roomId);
       socket.disconnect();
     };
   }, [roomId, socket]);
+
   return (
     <RoomContext.Provider value={{ socket, roomId }}>
       {children}
