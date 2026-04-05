@@ -9,14 +9,15 @@ interface QueueItem {
   title: string;
   thumbnail: string;
   voteCount: number;
+  createdAt: Date;
 }
 
 interface QueueListProps {
   items: QueueItem[];
-  onVote: (queueId: string, voted: boolean) => void;
+  votedIds: Set<string>;
 }
 
-export default function QueueList({ items, onVote }: QueueListProps) {
+export default function QueueList({ items, votedIds }: QueueListProps) {
   if (!items.length) {
     return (
       <p className="text-muted-foreground text-sm text-center">
@@ -44,7 +45,7 @@ export default function QueueList({ items, onVote }: QueueListProps) {
           <VoteButton
             queueId={item.id}
             voteCount={item.voteCount}
-            onVote={onVote}
+            initialVoted={votedIds.has(item.id)}
           />
         </div>
       ))}

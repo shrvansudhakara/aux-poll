@@ -7,16 +7,16 @@ import { useAuthModal } from "@/lib/context/auth-modal";
 interface VoteButtonProps {
   queueId: string;
   voteCount: number;
-  onVote: (queueId: string, voted: boolean) => void;
+  initialVoted: boolean;
 }
 
 export default function VoteButton({
   queueId,
   voteCount,
-  onVote,
+  initialVoted,
 }: VoteButtonProps) {
   const [loading, setLoading] = useState(false);
-  const [voted, setVoted] = useState(false);
+  const [voted, setVoted] = useState(initialVoted);
   const { setOpen } = useAuthModal();
 
   const handleVote = async () => {
@@ -25,7 +25,6 @@ export default function VoteButton({
     try {
       const { voted: newVoted } = await toggleVote(queueId);
       setVoted(newVoted);
-      onVote(queueId, newVoted);
     } catch (error) {
       if (error instanceof Error && error.message === "Unauthorized") {
         setOpen(true);

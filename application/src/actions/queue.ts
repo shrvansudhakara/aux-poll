@@ -6,6 +6,7 @@ import { z } from "zod";
 import { auth } from "@/lib/auth/auth";
 import { db } from "@/lib/db";
 import { queue } from "@/lib/db/schema";
+import { emitEvent } from "@/lib/socket/emit";
 
 const searchSchema = z.object({
   query: z.string().trim().min(1).max(100),
@@ -74,5 +75,16 @@ export async function addToQueue(input: {
     thumbnail: validated.thumbnail,
     addedBy: session.user.id,
   });
+
+  await emitEvent("/internal/events/queue-updated", {
+    roomId: validated.roomId,
+    id,
+    videoId: validated.videoId,
+    title: validated.title,
+    thumbnail: validated.thumbnail,
+    voteCount: 0,
+    createdAt: new Date().toISOString(),
+  });
+
   return { id };
 }
