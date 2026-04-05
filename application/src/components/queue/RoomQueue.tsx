@@ -33,7 +33,7 @@ export default function RoomQueue({ roomId, initialQueue }: RoomQueueProps) {
 
   const handleAdd = async (result: SearchResult) => {
     try {
-      const { id } = await addToQueue({
+      await addToQueue({
         roomId,
         videoId: result.videoId,
         title: result.title,
@@ -42,7 +42,7 @@ export default function RoomQueue({ roomId, initialQueue }: RoomQueueProps) {
       setQueueItems((prev) => [
         ...prev,
         {
-          id,
+          id: result.videoId,
           videoId: result.videoId,
           title: result.title,
           thumbnail: result.thumbnail,
@@ -59,11 +59,23 @@ export default function RoomQueue({ roomId, initialQueue }: RoomQueueProps) {
     }
   };
 
+  const handleVote = (queueId: string, voted: boolean) => {
+    setQueueItems((prev) =>
+      [...prev]
+        .map((item) =>
+          item.id === queueId
+            ? { ...item, voteCount: item.voteCount + (voted ? 1 : -1) }
+            : item,
+        )
+        .sort((a, b) => b.voteCount - a.voteCount),
+    );
+  };
+
   return (
     <div className="flex flex-col gap-4">
       <SearchBar onResults={setResults} />
       <SearchResults results={results} onAdd={handleAdd} />
-      <QueueList items={queueItems} />
+      <QueueList items={queueItems} onVote={handleVote} />
     </div>
   );
 }

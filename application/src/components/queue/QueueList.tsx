@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import VoteButton from "@/components/queue/VoteButton";
 
 interface QueueItem {
   id: string;
@@ -12,9 +13,10 @@ interface QueueItem {
 
 interface QueueListProps {
   items: QueueItem[];
+  onVote: (queueId: string, voted: boolean) => void;
 }
 
-export default function QueueList({ items }: QueueListProps) {
+export default function QueueList({ items, onVote }: QueueListProps) {
   if (!items.length) {
     return (
       <p className="text-muted-foreground text-sm text-center">
@@ -39,9 +41,11 @@ export default function QueueList({ items }: QueueListProps) {
             className="object-cover rounded"
           />
           <p className="flex-1 text-sm">{item.title}</p>
-          <span className="text-sm text-muted-foreground">
-            {item.voteCount} votes
-          </span>
+          <VoteButton
+            queueId={item.id}
+            voteCount={item.voteCount}
+            onVote={onVote}
+          />
         </div>
       ))}
     </div>
