@@ -21,7 +21,7 @@ export async function toggleVote(queueId: string) {
     await db.delete(votes).where(eq(votes.id, existingVote[0].id));
     await db
       .update(queue)
-      .set({ voteCount: sql`${queue.voteCount} - 1` })
+      .set({ voteCount: sql`GREATEST(${queue.voteCount} - 1, 0)` })
       .where(eq(queue.id, queueId));
     return { voted: false };
   }
