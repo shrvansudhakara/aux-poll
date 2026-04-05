@@ -67,14 +67,17 @@ export async function addToQueue(input: {
 
   const id = nanoid();
 
-  await db.insert(queue).values({
-    id,
-    roomId: validated.roomId,
-    videoId: validated.videoId,
-    title: validated.title,
-    thumbnail: validated.thumbnail,
-    addedBy: session.user.id,
-  });
+  const [inserted] = await db
+    .insert(queue)
+    .values({
+      id,
+      roomId: validated.roomId,
+      videoId: validated.videoId,
+      title: validated.title,
+      thumbnail: validated.thumbnail,
+      addedBy: session.user.id,
+    })
+    .returning();
 
   await emitEvent("/internal/events/queue-updated", {
     roomId: validated.roomId,
@@ -83,7 +86,7 @@ export async function addToQueue(input: {
     title: validated.title,
     thumbnail: validated.thumbnail,
     voteCount: 0,
-    createdAt: new Date().toISOString(),
+    createdAt: inserted.createdAt,
   });
 
   return { id };
