@@ -47,11 +47,7 @@ export default function RoomQueue({
       });
     };
 
-    const onVoteUpdated = (data: {
-      queueId: string;
-      voteCount: number;
-      createdAt: Date;
-    }) => {
+    const onVoteUpdated = (data: { queueId: string; voteCount: number }) => {
       setQueueItems((prev) =>
         [...prev]
           .map((item) =>
@@ -59,7 +55,6 @@ export default function RoomQueue({
               ? {
                   ...item,
                   voteCount: data.voteCount,
-                  createdAt: data.createdAt,
                 }
               : item,
           )

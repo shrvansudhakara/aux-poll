@@ -35,7 +35,6 @@ export async function toggleVote(queueId: string) {
       roomId: updatedUnvote[0].roomId,
       queueId,
       voteCount: updatedUnvote[0].voteCount,
-      createdAt: updatedUnvote[0].createdAt,
       voted: false,
     });
 
@@ -68,7 +67,6 @@ export async function toggleVote(queueId: string) {
       roomId: updatedVote[0].roomId,
       queueId,
       voteCount: updatedVote[0].voteCount,
-      createdAt: updatedVote[0].createdAt,
       voted: true,
     });
 
