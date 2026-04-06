@@ -6,6 +6,7 @@ import { z } from "zod";
 import { auth } from "@/lib/auth/auth";
 import { db } from "@/lib/db";
 import { queue } from "@/lib/db/schema";
+import { emitEvent } from "@/lib/socket/emit";
 
 const searchSchema = z.object({
   query: z.string().trim().min(1).max(100),
@@ -66,13 +67,27 @@ export async function addToQueue(input: {
 
   const id = nanoid();
 
-  await db.insert(queue).values({
-    id,
+  const [inserted] = await db
+    .insert(queue)
+    .values({
+      id,
+      roomId: validated.roomId,
+      videoId: validated.videoId,
+      title: validated.title,
+      thumbnail: validated.thumbnail,
+      addedBy: session.user.id,
+    })
+    .returning();
+
+  await emitEvent("/internal/events/queue-updated", {
     roomId: validated.roomId,
+    id,
     videoId: validated.videoId,
     title: validated.title,
     thumbnail: validated.thumbnail,
-    addedBy: session.user.id,
+    voteCount: 0,
+    createdAt: inserted.createdAt,
   });
+
   return { id };
 }
