@@ -1,6 +1,6 @@
 "use server";
 
-import { eq } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 import { headers } from "next/headers";
 import { auth } from "@/lib/auth/auth";
 import { db } from "@/lib/db";
@@ -27,7 +27,7 @@ export async function markAsPlayed(queueId: string) {
   const [played] = await db
     .update(queue)
     .set({ played: 1 })
-    .where(eq(queue.id, queueId))
+    .where(and(eq(queue.id, queueId), eq(queue.played, 0)))
     .returning();
 
   if (played) {
