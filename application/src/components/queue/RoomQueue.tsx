@@ -38,6 +38,7 @@ export default function RoomQueue({
   const [queueItems, setQueueItems] = useState<QueueItem[]>(initialQueue);
   const { setOpen } = useAuthModal();
   const { socket } = useRoom();
+  const [nowPlaying, setNowPlaying] = useState<string | null>(null);
 
   useEffect(() => {
     const onQueueUpdated = (item: QueueItem) => {
@@ -70,12 +71,24 @@ export default function RoomQueue({
       );
     };
 
+    const onPlayerPlaying = (data: { title: string }) => {
+      setNowPlaying(data.title || null);
+    };
+
+    const onSongPlayed = (data: { queueId: string }) => {
+      setQueueItems((prev) => prev.filter((item) => item.id !== data.queueId));
+    };
+
     socket.on("queue:updated", onQueueUpdated);
     socket.on("vote:updated", onVoteUpdated);
+    socket.on("player:playing", onPlayerPlaying);
+    socket.on("song:played", onSongPlayed);
 
     return () => {
       socket.off("queue:updated", onQueueUpdated);
       socket.off("vote:updated", onVoteUpdated);
+      socket.off("player:playing", onPlayerPlaying);
+      socket.off("song:played", onSongPlayed);
     };
   }, [socket]);
 
@@ -99,6 +112,14 @@ export default function RoomQueue({
 
   return (
     <div className="flex flex-col gap-4">
+      {nowPlaying && (
+        <div className="border rounded p-3 flex items-center gap-2">
+          <span className="text-orange-500 text-sm font-medium">
+            ▶ Now Playing:
+          </span>
+          <span className="text-sm">{nowPlaying}</span>
+        </div>
+      )}
       <SearchBar onResults={setResults} />
       <SearchResults results={results} onAdd={handleAdd} />
       <QueueList items={queueItems} votedIds={initialVotedIds} />

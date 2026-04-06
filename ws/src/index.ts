@@ -53,6 +53,21 @@ const httpServer = http.createServer((req, res) => {
       return;
     }
 
+    if (
+      req.url === "/internal/events/player-playing" &&
+      req.method === "POST"
+    ) {
+      io.to(body.roomId).emit("player:playing", body);
+      res.writeHead(200).end("OK");
+      return;
+    }
+
+    if (req.url === "/internal/events/song-played" && req.method === "POST") {
+      io.to(body.roomId).emit("song:played", body);
+      res.writeHead(200).end("OK");
+      return;
+    }
+
     res.writeHead(404).end("Not found");
   });
 });
