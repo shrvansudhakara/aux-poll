@@ -55,18 +55,25 @@ export default function YouTubePlayer({ queue, roomId }: YouTubePlayerProps) {
       ),
   );
   const currentIndexRef = useRef(0);
+  const advancingRef = useRef(false);
 
   useEffect(() => {
     const handleNext = async () => {
-      const current = unplayedRef.current[currentIndexRef.current];
-      if (current) await markAsPlayed(current.id);
+      if (advancingRef.current) return;
+      advancingRef.current = true;
+      try {
+        const current = unplayedRef.current[currentIndexRef.current];
+        if (current) await markAsPlayed(current.id);
 
-      const nextIndex = currentIndexRef.current + 1;
-      const next = unplayedRef.current[nextIndex];
-      if (next) {
-        currentIndexRef.current = nextIndex;
-        playerRef.current?.loadVideoById(next.videoId);
-        await emitNowPlaying(roomId, next.title);
+        const nextIndex = currentIndexRef.current + 1;
+        const next = unplayedRef.current[nextIndex];
+        if (next) {
+          currentIndexRef.current = nextIndex;
+          playerRef.current?.loadVideoById(next.videoId);
+          await emitNowPlaying(roomId, next.title);
+        }
+      } finally {
+        advancingRef.current = false;
       }
     };
 
@@ -82,7 +89,7 @@ export default function YouTubePlayer({ queue, roomId }: YouTubePlayerProps) {
         events: {
           onStateChange: (event) => {
             if (event.data === window.YT.PlayerState.ENDED) {
-              handleNext();
+              void handleNext().catch(console.error);
             }
           },
         },
