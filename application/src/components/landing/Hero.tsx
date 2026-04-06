@@ -59,10 +59,10 @@ export default function Hero() {
           className="flex flex-wrap justify-center gap-3"
         >
           <Button size="default" asChild>
-            <Link href="/join-room">Join Room</Link>
+            <Link href="/room/join">Join Room</Link>
           </Button>
           <Button variant="outline" size="default" asChild>
-            <Link href="/create-room">Create Room</Link>
+            <Link href="/room/create">Create Room</Link>
           </Button>
         </motion.div>
       </div>
