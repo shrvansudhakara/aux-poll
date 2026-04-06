@@ -1,12 +1,12 @@
 import { relations } from "drizzle-orm";
 import {
+  boolean,
+  index,
+  integer,
   pgTable,
   text,
   timestamp,
-  integer,
-  boolean,
   unique,
-  index,
 } from "drizzle-orm/pg-core";
 
 // ==================== Better Auth Tables ====================
