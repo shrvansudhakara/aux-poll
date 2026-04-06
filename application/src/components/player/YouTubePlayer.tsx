@@ -71,6 +71,8 @@ export default function YouTubePlayer({ queue, roomId }: YouTubePlayerProps) {
           currentIndexRef.current = nextIndex;
           playerRef.current?.loadVideoById(next.videoId);
           await emitNowPlaying(roomId, next.title);
+        } else {
+          await emitNowPlaying(roomId, "");
         }
       } finally {
         advancingRef.current = false;

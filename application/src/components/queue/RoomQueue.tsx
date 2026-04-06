@@ -72,7 +72,7 @@ export default function RoomQueue({
     };
 
     const onPlayerPlaying = (data: { title: string }) => {
-      setNowPlaying(data.title);
+      setNowPlaying(data.title || null);
     };
 
     const onSongPlayed = (data: { queueId: string }) => {
